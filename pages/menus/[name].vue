@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="pdf-container">
 
         <iframe v-if="pdfExists" style="" :src="pdf" frameborder="0" height="500px" width="100%"></iframe>
@@ -31,7 +31,46 @@ onMounted(() => {
 
 
 
+</script> -->
+
+
+<template>
+    <div class="pdf-container">
+        <iframe v-if="pdfExists" :src="blobPdfUrl" frameborder="0" height="500px" width="100%"></iframe>
+        <div v-else>PDF not found</div>
+    </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const blobPdfUrl = ref('');
+const pdfExists = ref(false);
+
+onMounted(async () => {
+    if (process.client) {
+        const pdfFileName = `${route.params.name}.pdf`;
+        const pdfPath = `/menus/${pdfFileName}`;
+        try {
+            const response = await fetch(pdfPath);
+            if (response.ok && response.headers.get('Content-Type') === 'application/pdf') {
+                const blob = await response.blob();
+                blobPdfUrl.value = URL.createObjectURL(blob);
+                pdfExists.value = true;
+            } else {
+                throw new Error('PDF not found');
+            }
+        } catch (error) {
+            console.error(error.message);
+            pdfExists.value = false;
+        }
+    }
+});
 </script>
+
+
 
 <style >
 body,
