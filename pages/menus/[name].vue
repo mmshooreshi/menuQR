@@ -15,6 +15,7 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const pdf = ref(null);
+const pdfExists = ref(true);
 
 const pdfFileName = `${route.params.name}.pdf`;
 const pdfPath = `/menus/${pdfFileName}`; // Ensure this path is correct for your application
@@ -23,7 +24,7 @@ pdf.value = pdfPath;
 // You would typically execute a check here to ensure the PDF exists.
 // If that check passes, set 'pdfExists' to true. 
 // For this example, we'll set it to true by default.
-pdfExists.value = true;
+// pdfExists.value = true;
 
 </script>
 <!-- 
