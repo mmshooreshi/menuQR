@@ -1,8 +1,8 @@
-<!-- <template>
+<template>
     <div class="pdf-container">
-
-        <iframe v-if="pdfExists" style="" :src="pdf" frameborder="0" height="500px" width="100%"></iframe>
-
+        <object v-if="pdfExists" type="application/pdf" :data="pdf" style="margin-top: -40px;" width="100%" height="110%">
+            <p>PDF not found</p>
+        </object>
         <div v-else>
             PDF not found
         </div>
@@ -18,59 +18,31 @@ const pdf = ref(null);
 const pdfExists = ref(false);
 
 onMounted(() => {
-    if (process.client) {
-        const pdfFileName = `${route.params.name}.pdf`;
-        const pdfPath = `/menus/${pdfFileName}`; // Ensure this path is correct for your application
-        // Here we directly set the value of pdf to the path.
-        // In practice, you might want to check for the existence of the PDF file before assigning it.
-        pdf.value = pdfPath + "#toolbar=0";
-        pdfExists.value = true;
-    }
-});
+    const pdfFileName = `${route.params.name}.pdf`;
+    const pdfPath = `/menus/${pdfFileName}`; // Ensure this path is correct for your application
+    pdf.value = pdfPath;
 
-
-
-
-</script> -->
-
-
-<template>
-    <div class="pdf-container">
-        <iframe v-if="pdfExists" :src="blobPdfUrl" frameborder="0" height="500px" width="100%"></iframe>
-        <div v-else>PDF not found</div>
-    </div>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-const blobPdfUrl = ref('');
-const pdfExists = ref(false);
-
-onMounted(async () => {
-    if (process.client) {
-        const pdfFileName = `${route.params.name}.pdf`;
-        const pdfPath = `/menus/${pdfFileName}`;
-        try {
-            const response = await fetch(pdfPath);
-            if (response.ok && response.headers.get('Content-Type') === 'application/pdf') {
-                const blob = await response.blob();
-                blobPdfUrl.value = URL.createObjectURL(blob);
-                pdfExists.value = true;
-            } else {
-                throw new Error('PDF not found');
-            }
-        } catch (error) {
-            console.error(error.message);
-            pdfExists.value = false;
-        }
-    }
+    // You would typically execute a check here to ensure the PDF exists.
+    // If that check passes, set 'pdfExists' to true. 
+    // For this example, we'll set it to true by default.
+    pdfExists.value = true;
 });
 </script>
+<!-- 
+<style>
+.pdf-container {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    /* Optional: hide the overflow if it's larger than you want */
+}
 
-
+.pdf-container object {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+</style> -->
 
 <style >
 body,
