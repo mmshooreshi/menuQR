@@ -1,0 +1,23 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@tato30/vue-pdf": "^1.9.3",
+    "nuxt": "^3.9.0",
+    "pdfjs-dist": "^4.0.379",
+    "vue": "^3.4.5",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@pdftron/webviewer": "^10.6.0",
+    "vite": "^5.0.11"
+  }
+}
